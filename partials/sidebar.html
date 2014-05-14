@@ -1,0 +1,86 @@
+
+<div class="row" style="margin-top:15px;">
+	<div class="col-md-12">
+		<div id="loading_agencies" ng-show='loading_agencies'>
+		    <div class="progress progress-striped active">
+		      <div class="progress-bar progress-bar-info" style="width: 100%"></div>
+		    </div>
+		</div>
+		<div id="conainer">
+			<label ng-hide='loading_agencies' ng-cloak> Select Agency
+				<br>
+				<select  class="form-control"  ng-model="current_agency">
+					<option ng-repeat="agency in agencies" value="{{ $index }}">{{ agency.name }}</option>
+				</select>
+			</label>
+			<div class="row" ng-show="current_agency">
+				<div class="col-md-8">
+			    	<b>{{ agencies[current_agency].name }}</b><br>
+			    	Location: {{ agencies[current_agency].area+" "+agencies[current_agency].state }}
+			    </div>
+			    <div class="col-md-4">
+			    	<a class="btn btn-info pull-right" ng-click="loadAgency(agencies[current_agency].id)" class="color:#fff;">Load Data</a>
+			    </div>
+		    </p>
+		</div>
+		<div id="loading_agencies" ng-show='loading'>
+		    <div class="progress progress-striped active">
+		      <div class="progress-bar progress-bar-info" style="width: 100%"></div>
+		    </div>
+		</div>
+		<div class="info_overlay" ng-show="loaded">
+		  	<tabset>
+		    <tab heading="Agency">
+		      	<div class="span3 bordered">
+		      		<b>Name</b>:{{ loaded_agency.name }}<br>
+			        <b>Area</b>: {{ loaded_agency.area }}<br>
+			        <b>State</b>:{{ loaded_agency.state }}<br>
+			        <b>URL</b>: <a href="{{loaded_agency.url}}">{{loaded_agency.url}}</a><br>
+			        <b>GTFS License</b>: <a href="{{ loaded_agency.license_url }}">{{ loaded_agency.license_url }}</a><br>
+			        <b>gtfs-data-exchange URL</b>: <a href="{{ loaded_agency.dataexchange_url }}">{{ loaded_agency.dataexchange_url }}</a><br>
+			        <b>Last Updated</b>: {{ loaded_agency.date_last_updated*1000 | date:'medium' }}
+		      	</div>
+		  	</tab>
+		  	<tab heading="Stops">
+			    <div class="span3 bordered">
+			        <table class="table table-hover">
+			          <thead>
+			            <tr>
+			              <th>Stop ID</th>
+			              <th>Stop Code</th>
+			              <th>Stop Name</th> 
+			          </thead>
+			          <tr ng-repeat="stop in stops">
+			            <td>{{ stop.stop_id }}</td>
+			            <td>{{ stop.stop_code }}</td>
+			            <td>{{ stop.stop_name }}</td>
+			          </tr>
+			        </table>
+			    </div>
+		    </tab>
+		    <tab heading="Routes">
+		      <div class="span3 bordered">
+		        <table class="table table-hover">
+		          <thead>
+		            <tr>
+		              <th>Route ID</th>
+		              <th>Short Name</th>
+		              <th>Long Name</th>
+		            </tr>
+		          </thead>
+		          <tr ng-repeat="route in routes" style="color:#{{ route.route_color }}">
+		            <td>{{ route.route_id }}</td>
+		            <td>{{ route.route_short_name }}</td>
+		            <td>{{ route.route_long_name }}</td>
+		          </tr>
+		        </table>
+		      </div>
+		    </tab>
+		    <tab heading="Info Tab">
+		    	<div id="stops-info">
+		    	</div>
+		    </tab>
+		  </tabset>
+	</div>
+</div>
+

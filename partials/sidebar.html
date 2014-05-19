@@ -1,5 +1,5 @@
 
-<div class="row" style="margin-top:15px;">
+<div class="row" style="margin-top:15px;overflow:hidden">
 	<div class="col-md-12">
 		<div id="loading_agencies" ng-show='loading_agencies'>
 		    <div class="progress progress-striped active">
@@ -76,10 +76,40 @@
 		        </table>
 		      </div>
 		    </tab>
-		    <tab heading="Info Tab">
-		    	<div id="stops-info">
+		    <tab heading="Schedule Tab">
+		    	<div id="schedule-info">
+		    		<div class="row">
+				        <div class="col-md-12">
+				            <p class="input-group">
+				              <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" close-text="Close" />
+				              <span class="input-group-btn">
+				                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+				              </span>
+				            </p>
+				        </div>
+    				</div>
+    				{{route_info}}
+    				<tabset>
+    				<div class="row">
+	    				<div class='col-md-6'>
+	    				 <a class='btn btn-primary' ng-click="currentPage = currentPage - 1" ng-disabled='currentPage==0'><i class="fa fa-arrow-left"></i></a>
+	    				 {{currentPage}}
+	    				</div>
+	    				<div class='col-md-6'>
+	    				 <a class='btn btn-primary pull-right' ng-click="currentPage = currentPage+ 1" ng-disabled='currentPage==12'><i class="fa fa-arrow-right"></i> </a>
+	    				</div>
+    				</div>
+    				<tab ng-repeat='dir in dirkeys' heading="{{dir}}">
+    					<table class="table table-hover">
+						    <tr ng-repeat='stop in stopindex[dir]'>
+						    	<td>{{stopNames[stop]}}</td>
+						    	<td ng-repeat='trip in direction[dir].trips | startFrom:currentPage | limitJson:pageSize'>{{trip[stop]}}</td>
+						    </tr>
+					    </table>
+					</tab>
 		    	</div>
 		    </tab>
+
 		  </tabset>
 	</div>
 </div>

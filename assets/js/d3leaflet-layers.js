@@ -23,6 +23,7 @@
 
       svg = this._svg;
       layer_options = this.options
+      
       if(typeof layer_options.type == 'undefined'){
         type = 'path';
       }else{
@@ -33,8 +34,8 @@
         if(typeof layer_options.radius != 'undefined'){
           radius = layer_options.radius;
         }
-
       }
+
       if (this.geojson.type == "Topology") {
         for(key in this.geojson.objects){
           this.geojson = root.topojson.feature(this.geojson, this.geojson.objects[key]);
@@ -52,12 +53,17 @@
         feature = join.enter().append("path");
       }
      
-      if(layer_options.layerId){
-        feature.attr('ng-click',function(d){
-          return 'loadRouteInfo('+d.properties.route+')'
-        })
+      //*****************************************/
+      //ng-click for route & stops
+      //*****************************************
+      if(layer_options.layerId == 'routes'){
+        feature.on('click',function(d){
+          return angular.element(this).scope().loadRouteInfo(d.properties.route_id);
+        });
       };
+      
 
+      //*****************************************
       if(typeof layer_options.mouseover !='undefined'){
        
         feature.on("mouseover", function(d) {
